@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_project/home.dart';
+import 'controller.dart';
 import 'students.dart';
 
 void main() {
@@ -38,8 +39,12 @@ class _MyHomePageState extends State<MyHomePage> {
     _counter++;
   }
 
-  final students = Students(name: "Tom", age: 18).obs;
-
+  int track = 0;
+  final controller = Get.put(MyController());
+  final myclassObs = Get.put(MyclassObs());
+  final increments = Get.put(Increment());
+  //final students = Students(name: "Tom", age: 18).obs;
+  final autoIncrement = Get.put(AutoIncrement());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -106,12 +111,53 @@ class _MyHomePageState extends State<MyHomePage> {
             Obx(() => Text(_counter.toString())),
             ElevatedButton(
                 onPressed: () {
-                  students.update((students) {
-                    students!.name = students.name.toUpperCase();
-                  });
+                  // students.update((students) {
+                  //   students!.name = students.name.toUpperCase();
+                  // });
+                  if (0 == track) {
+                    track = 1;
+
+                    controller.uppercase();
+                  } else if (1 == track) {
+                    track = 0;
+                    controller.lowercase();
+                  }
                 },
                 child: Text("Change text")),
-            Obx(() => Text(students.value.name))
+            Obx(() => Text(controller.students.name.value)),
+            ElevatedButton(
+                onPressed: () {
+                  myclassObs.updatevalue();
+                },
+                child: Text("ClassOBs")),
+            Obx(() => Text(myclassObs.nStudents.value.name)),
+            ElevatedButton(
+                onPressed: () {
+                  Get.find<Increment>().incremnt();
+                },
+                child: Text("GetX Button")),
+            GetX<Increment>(
+                init: Increment(),
+                builder: (con) {
+                  return Text("The valu is nothing ${con.incre}");
+                }),
+            ElevatedButton(
+                onPressed: () {
+                  Get.find<Getbuilder>().incremetion();
+                },
+                child: Text("GetBuilder Button")),
+            GetBuilder<Getbuilder>(
+                init: Getbuilder(),
+                builder: (con) {
+                  return Text("the value is nothing ${con.incre}");
+                }),
+            GetBuilder<AutoIncrement>(
+                init: AutoIncrement(),
+                initState: (state) => autoIncrement.oninit(),
+                dispose: (_) => autoIncrement.onClose(),
+                builder: (con) {
+                  return Text("Text ${con.cout}");
+                }),
           ],
         ),
       ),
