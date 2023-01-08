@@ -147,13 +147,19 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 child: Text("GetBuilder Button")),
             GetBuilder<Getbuilder>(
+                id: "one",
+                init: Getbuilder(),
+                builder: (con) {
+                  return Text("the value is nothing ${con.incre}");
+                }),
+            GetBuilder<Getbuilder>(
                 init: Getbuilder(),
                 builder: (con) {
                   return Text("the value is nothing ${con.incre}");
                 }),
             GetBuilder<AutoIncrement>(
                 init: AutoIncrement(),
-                initState: (state) => autoIncrement.oninit(),
+                initState: (state) => autoIncrement.increment(),
                 dispose: (_) => autoIncrement.onClose(),
                 builder: (con) {
                   return Text("Text ${con.cout}");

@@ -36,7 +36,7 @@ class Getbuilder extends GetxController {
   var incre = 0;
   void incremetion() {
     incre++;
-    update();
+    update(['one']);
   }
 }
 
