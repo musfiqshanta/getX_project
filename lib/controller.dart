@@ -1,6 +1,22 @@
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'students.dart';
+
+class HomeBindings implements Bindings{
+@override
+void dependencies(){
+Get.put(MyController());
+Get.put(Increment());
+Get.put(MyclassObs());
+
+}
+
+}
+
+
+
+
 
 class MyController extends GetxController {
   Students students = Students();
@@ -55,7 +71,7 @@ class AutoIncrement extends GetxController {
   }
 
   @override
-  void oninit() {
+  void onInit() {
     print("init called");
     super.onInit();
   }
@@ -64,5 +80,21 @@ class AutoIncrement extends GetxController {
   void onClose() {
     print("Disclose");
     super.dispose();
+  }
+}
+
+class Textfieldcount extends GetxController {
+  var type = 0.obs;
+  var x = 0.obs;
+  @override
+  void onInit() {
+    super.onInit();
+    // ever(type, (_) => print("has been changed ${type}"));
+    // once(type, (_) => print("has been changed ${type}"));
+    //   debounce(type, (data) => print("deboudnce ${data}"),
+    //       time: Duration(seconds: 1));
+    // }
+    interval(type, (data) => print("interval ${data}"),
+        time: Duration(seconds: 3));
   }
 }
